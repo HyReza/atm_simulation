@@ -81,25 +81,23 @@ Once the application is running, you’ll see an interactive menu with the follo
 
 ## Code Structure
 
-atm-simulation/
-│
-├── cmd/
-│   └── main.go         # File utama untuk menjalankan aplikasi
-│
-├── internal/
-│   ├── user/
-│   │   └── user.go     # Logika terkait dengan operasi akun pengguna
-│   │
-│   └── transaction/
-│       └── transaction.go  # Logika untuk transaksi (withdraw, deposit, transfer)
-│
-├── pkg/
-│   └── db/
-│       └── db.go    # Koneksi dan operasi database MySQL
-│
-├── go.mod
-├── go.sum
-└── README.md
+- **`cmd/`**: Contains the entry point of the application.
+  - **`main.go`**: The main file that runs the ATM simulation application.
+
+- **`internal/`**: Holds the business logic for the application.
+  - **`user/`**: Contains the logic related to user operations, including registration, login, and PIN management.
+    - **`user.go`**: Contains functions for user account management.
+  - **`transaction/`**: Contains the logic for managing transactions (deposit, withdraw, and transfer).
+    - **`transaction.go`**: Contains functions for performing and recording transactions.
+
+- **`pkg/`**: Contains reusable libraries or modules used by the application.
+  - **`db/`**: Handles the connection to the MySQL database and query operations.
+    - **`db.go`**: Manages the MySQL connection and queries.
+
+- **`go.mod`**: Contains the module dependencies for Go projects.
+- **`go.sum`**: Provides cryptographic hashes of module dependencies for verifying integrity.
+- **`README.md`**: This file containing project description, setup instructions, and usage.
+
 
 
 - **`cmd/main.go`**: Main entry point for running the ATM simulation application.
