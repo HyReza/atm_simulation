@@ -98,13 +98,6 @@ Once the application is running, you’ll see an interactive menu with the follo
 - **`go.sum`**: Provides cryptographic hashes of module dependencies for verifying integrity.
 - **`README.md`**: This file containing project description, setup instructions, and usage.
 
-
-
-- **`cmd/main.go`**: Main entry point for running the ATM simulation application.
-- **`internal/user/user.go`**: Contains the logic for user-related operations like registration, login, balance check, and PIN management.
-- **`internal/transaction/transaction.go`**: Contains the logic for managing transactions such as deposits, withdrawals, transfers, and transaction history.
-- **`pkg/db/db.go`**: Manages MySQL database connection and queries.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to open an issue or submit a pull request if you have improvements or bug fixes.
