@@ -1,24 +1,10 @@
-# ATM Simulation Application
-
-This project is an ATM simulation application developed in **Go (Golang)**, designed to simulate basic banking functionalities such as registration, login, balance checking, deposits, withdrawals, transfers, transaction history, and more.
-
-## Features
-
-- **User Registration & Login**: Allows users to create accounts with a PIN and log in securely.
-- **Balance Checking**: Users can check their account balance in Indonesian Rupiah (Rp).
-- **Deposit and Withdraw**: Users can deposit and withdraw money from their accounts, with checks for sufficient balance.
-- **Transfer**: Users can transfer money between accounts with transaction history tracking.
-- **Transaction History**: Users can view their transaction history, including deposits, withdrawals, and transfers.
-- **PIN Change**: Users can change their PIN after confirming the old PIN.
-- **Account Deletion**: Accounts can be deleted if the balance is zero, with a confirmation prompt.
-- **Formatted Currency**: The balance is displayed in a user-friendly format with thousand separators (e.g., "Rp 1.000").
 
 ## Installation
 
 ### Prerequisites
 
-1. **Go (Golang)**: Make sure you have Go installed. You can download and install it from the official website: [https://golang.org/dl/](https://golang.org/dl/).
-2. **Database**: The application uses **SQLite** (or another relational database) to store user and transaction data.
+1. **Go (Golang)**: Ensure that you have Go installed. You can download it from the official website: [https://golang.org/dl/](https://golang.org/dl/).
+2. **MySQL Database**: You need MySQL to run the application. You can download and install it from the official website: [https://www.mysql.com/](https://www.mysql.com/).
 
 ### Steps
 
@@ -39,14 +25,40 @@ This project is an ATM simulation application developed in **Go (Golang)**, desi
 
 3. **Set up the database**:
 
-    Ensure that the SQLite database (`db` folder) exists and contains the necessary tables. The application handles database connections and queries.
+    - You need to create a MySQL database for the application. You can use the following SQL script to create the necessary tables:
+
+    ```sql
+    CREATE DATABASE atm_simulation;
+
+    USE atm_simulation;
+
+    CREATE TABLE accounts (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        pin VARCHAR(10) NOT NULL,
+        balance FLOAT NOT NULL DEFAULT 0,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE transactions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        account_id INT NOT NULL,
+        type VARCHAR(50) NOT NULL,
+        amount FLOAT NOT NULL,
+        target_id INT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (account_id) REFERENCES accounts(id)
+    );
+    ```
+
+    - Update your MySQL credentials in the `pkg/db/db.go` file to match your MySQL configuration.
 
 4. **Run the application**:
 
     Use the following command to run the application:
 
     ```bash
-    go run main.go
+    go run cmd/main.go
     ```
 
     This will start the application with an interactive terminal menu.
@@ -69,10 +81,31 @@ Once the application is running, you’ll see an interactive menu with the follo
 
 ## Code Structure
 
-- **`main.go`**: Contains the main logic for running the application and handling user input.
-- **`user.go`**: Handles user-related operations such as registration, login, and PIN management.
-- **`transaction.go`**: Handles transaction-related operations including deposits, withdrawals, transfers, and transaction history.
-- **`db/`**: Contains the database connection and schema management (SQLite).
+atm-simulation/
+│
+├── cmd/
+│   └── main.go         # File utama untuk menjalankan aplikasi
+│
+├── internal/
+│   ├── user/
+│   │   └── user.go     # Logika terkait dengan operasi akun pengguna
+│   │
+│   └── transaction/
+│       └── transaction.go  # Logika untuk transaksi (withdraw, deposit, transfer)
+│
+├── pkg/
+│   └── db/
+│       └── db.go    # Koneksi dan operasi database MySQL
+│
+├── go.mod
+├── go.sum
+└── README.md
+
+
+- **`cmd/main.go`**: Main entry point for running the ATM simulation application.
+- **`internal/user/user.go`**: Contains the logic for user-related operations like registration, login, balance check, and PIN management.
+- **`internal/transaction/transaction.go`**: Contains the logic for managing transactions such as deposits, withdrawals, transfers, and transaction history.
+- **`pkg/db/db.go`**: Manages MySQL database connection and queries.
 
 ## Contributing
 
